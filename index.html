@@ -1,67 +1,328 @@
-CRM Prax
-5 leads
-↓ Exportar
-↑ Importar
-↻ Recarregar
-+ Novo Lead
-Pipeline
-✓ Prontos
-Alertas
-Weekly
-Prospectar
-+ Novo
-⚠ 1 follow-up vencido — ver alertas
-⚠ 2 perfilis para validar
-+ Apenas 2 leads novos — prospectar agora
-Todos (5)
-Novo (2)
-Contatado (1)
-Respondeu (1)
-Parceiro (1)
-Validar perfis
-Sem gancho
-WA ativo
-IG ativo
-LI ativo
-LM
-Loja Moderna Agência
-Contatado
-Ana Souza · Sócia-fundadora · São Paulo/SP
-✓ Pronto
-WA WhatsApp
-⚠ validar
-gancho ✓
-WA WhatsApp: vencido 2d
-Post sobre crescimento de 40% da base em Q1
-PD
-Performance Digital
-Respondeu
-Bruno Mendes · CEO · Rio de Janeiro/RJ
-✓ Pronto
-LI LinkedIn
-gancho ✓
-LI LinkedIn: 2d
-Comentou sobre dificuldade de escalar operações no IG
-AA
-Acelera Agência
-Novo
-Diego Lima · Head de Parcerias · São Paulo/SP
-~ Quase
-→ WhatsApp
-⚠ validar
-gancho ✓
-Publicou case study com ROI de 8x em campanha recente
-GM
-GestorSolo Mkt
-Novo
-sem contato · Curitiba/PR
-Incompleto
-CC
-Converta Consultoria
-Parceiro
-Carla Duarte · Diretora Comercial · Porto Alegre/RS
-✓ Pronto
-WA WhatsApp
-gancho ✓
-WA WhatsApp: 6d
-Story comemorando 50 clientes no portfólio
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Prax</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#00A896;--green2:#1D9E75;--green-light:#e6f7f5;
+  --bg:#f7f8fa;--card:#fff;--border:#e5e7eb;
+  --text:#1a1a2e;--muted:#6b7280;--muted2:#9ca3af;
+  --red:#ef4444;--red-light:#fef2f2;
+  --yellow:#f59e0b;--yellow-light:#fffbeb;
+  --blue:#3b82f6;--blue-light:#eff6ff;
+  --purple:#8b5cf6;--purple-light:#f5f3ff;
+  --orange:#f97316;--orange-light:#fff7ed;
+  --radius:10px;--shadow:0 1px 4px rgba(0,0,0,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+input,select,textarea{font-family:inherit;font-size:14px}
+#topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:16px;height:52px;position:sticky;top:0;z-index:100}
+#logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--text)}
+#lead-count{background:var(--green-light);color:var(--green2);font-size:12px;font-weight:600;padding:2px 8px;border-radius:20px}
+#topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn-sm{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:13px;color:var(--text);font-weight:500;transition:background .15s}
+.btn-sm:hover{background:var(--bg)}
+.btn-primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-primary:hover{background:var(--green2)}
+#tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:#fff;padding:0 20px;overflow-x:auto}
+.tab{padding:10px 16px;cursor:pointer;border-bottom:2px solid transparent;font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap;transition:color .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+#main{padding:20px;max-width:960px;margin:0 auto}
+#banners{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.banner{padding:10px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;border:1px solid transparent}
+.banner-red{background:var(--red-light);color:var(--red);border-color:#fecaca}
+.banner-yellow{background:var(--yellow-light);color:#92400e;border-color:#fde68a}
+.banner-green{background:var(--green-light);color:var(--green2);border-color:#a7f3d0}
+#filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);transition:all .15s}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip.active{background:var(--green);color:#fff;border-color:var(--green)}
+.chip.special{background:var(--bg)}
+#cards{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:box-shadow .15s;border-left:4px solid transparent;position:relative}
+.card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.card.border-red{border-left-color:var(--red)}
+.card.border-purple{border-left-color:var(--purple)}
+.card.border-yellow{border-left-color:var(--yellow)}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;color:#fff}
+.card-title{flex:1;min-width:0}
+.card-empresa{font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.card-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-status-Novo{background:#f0fdf4;color:#166534}
+.badge-status-Contatado{background:#eff6ff;color:#1e40af}
+.badge-status-Respondeu{background:#fdf4ff;color:#7e22ce}
+.badge-status-Qualificado{background:#fff7ed;color:#9a3412}
+.badge-status-Parceiro{background:var(--green-light);color:var(--green2)}
+.badge-status-Sem{background:#f9fafb;color:#6b7280}
+.badge-status-Nutrir{background:#fefce8;color:#854d0e}
+.badge-canal-wa{background:#dcfce7;color:#166534}
+.badge-canal-ig{background:var(--orange-light);color:#9a3412}
+.badge-canal-li{background:var(--blue-light);color:#1e40af}
+.badge-canal-dm{background:var(--purple-light);color:#5b21b6}
+.badge-ready-green{background:var(--green-light);color:var(--green2)}
+.badge-ready-yellow{background:var(--yellow-light);color:#92400e}
+.badge-ready-red{background:var(--red-light);color:#991b1b}
+.badge-warn{background:var(--yellow-light);color:#92400e}
+.badge-gancho{background:#f0fdf4;color:#166534}
+.badge-missing{background:var(--orange-light);color:#9a3412;font-size:11px}
+.progress-bar{height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;border-radius:2px;transition:width .3s}
+.progress-green{background:var(--green)}
+.progress-yellow{background:var(--yellow)}
+.progress-red{background:var(--red)}
+.card-follows{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
+.follow-item{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;background:var(--bg)}
+.follow-vencido{background:var(--red-light);color:var(--red)}
+.follow-hoje{background:var(--yellow-light);color:#92400e}
+.follow-futuro{background:var(--bg);color:var(--muted)}
+.card-preview{font-size:12px;color:var(--muted);margin-top:6px;border-top:1px solid var(--border);padding-top:6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#detail-view{display:none;padding:20px;max-width:960px;margin:0 auto}
+.detail-back{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--muted);font-size:13px;margin-bottom:16px}
+.detail-back:hover{color:var(--text)}
+.detail-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.detail-section-title{font-weight:600;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:12px 16px 0}
+.detail-body{padding:12px 16px 16px}
+.field-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.field-label{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em}
+.field-input{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:13px;width:100%;background:#fff;transition:border .15s}
+.field-input:focus{outline:none;border-color:var(--green)}
+.field-with-link{display:flex;gap:6px;align-items:center}
+.field-with-link .field-input{flex:1}
+.field-link{font-size:12px;white-space:nowrap;padding:4px 8px;border-radius:5px;background:var(--bg);border:1px solid var(--border);cursor:pointer;color:var(--text);transition:background .15s}
+.field-link:hover{background:var(--green-light);color:var(--green)}
+.validate-btn{padding:5px 10px;border-radius:5px;border:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
+.validate-btn.not-validated{background:var(--yellow-light);color:#92400e;border-color:#fde68a}
+.validate-btn.validated{background:var(--green-light);color:var(--green2);border-color:#a7f3d0}
+.checklist-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bg)}
+.checklist-item:last-child{border-bottom:none}
+.check-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.check-ok{background:var(--green-light);color:var(--green)}
+.check-no{background:#f3f4f6;color:var(--muted2)}
+.check-label{font-size:13px;flex:1}
+.canal-btns{display:flex;gap:8px;flex-wrap:wrap}
+.canal-btn{padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.canal-btn:hover:not(:disabled){border-color:var(--green);color:var(--green)}
+.canal-btn.active-wa{background:#dcfce7;color:#166534;border-color:#86efac}
+.canal-btn.active-ig{background:var(--orange-light);color:#9a3412;border-color:#fed7aa}
+.canal-btn.active-li{background:var(--blue-light);color:#1e40af;border-color:#bfdbfe}
+.canal-btn.active-dm{background:var(--purple-light);color:#5b21b6;border-color:#ddd6fe}
+.canal-btn.active-none{background:#f3f4f6;color:var(--muted);border-color:var(--border)}
+.canal-btn:disabled{opacity:.4;cursor:not-allowed}
+.follow-canal-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bg)}
+.follow-canal-row:last-child{border-bottom:none}
+.follow-canal-label{font-size:12px;font-weight:600;width:80px;color:var(--muted)}
+.follow-canal-dates{display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1}
+.follow-date-input{border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:12px;width:130px}
+.follow-date-input.vencido{border-color:var(--red);background:var(--red-light)}
+.follow-date-input.hoje{border-color:var(--yellow);background:var(--yellow-light)}
+.hist-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--bg);font-size:12px;align-items:flex-start}
+.hist-item:last-child{border-bottom:none}
+.hist-canal{width:30px;text-align:center;font-size:11px}
+.hist-date{color:var(--muted2);white-space:nowrap}
+.hist-note{flex:1;color:var(--text)}
+.comment-item{padding:8px;background:var(--bg);border-radius:6px;margin-bottom:6px;font-size:13px}
+.comment-date{font-size:11px;color:var(--muted2);margin-bottom:2px}
+.action-bar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--border);background:#f9fafb}
+.btn-action{padding:8px 16px;border-radius:7px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.btn-action:hover{background:var(--bg)}
+.btn-action.green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-action.green:hover{background:var(--green2)}
+.btn-action.danger{color:var(--red);border-color:#fecaca}
+.btn-action.danger:hover{background:var(--red-light)}
+.prontos-section{margin-bottom:24px}
+.prontos-section-title{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.empty-state{text-align:center;padding:32px;color:var(--muted);font-size:14px}
+.alertas-group{margin-bottom:20px}
+.alertas-group-title{font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.alerta-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;gap:10px;align-items:center;cursor:pointer}
+.alerta-item:hover{border-color:var(--green)}
+.alerta-info{flex:1}
+.alerta-empresa{font-weight:600;font-size:13px}
+.alerta-meta{font-size:12px;color:var(--muted)}
+.alerta-date{font-size:12px;font-weight:600}
+.alerta-date.vencido{color:var(--red)}
+.alerta-date.hoje{color:var(--yellow)}
+.alerta-date.proximo{color:var(--green)}
+.weekly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px}
+.weekly-stat{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.weekly-stat-num{font-size:28px;font-weight:800;color:var(--green)}
+.weekly-stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+.weekly-stat-sub{font-size:11px;color:var(--muted2);margin-top:2px}
+.weekly-chart{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.chart-bars{display:flex;gap:8px;align-items:flex-end;height:100px;margin-top:12px}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.chart-bar{width:100%;background:var(--green);border-radius:4px 4px 0 0;min-height:2px;transition:height .3s}
+.chart-label{font-size:10px;color:var(--muted);text-align:center}
+.chart-val{font-size:10px;font-weight:600;color:var(--text)}
+.weekly-btns{display:flex;gap:8px;margin-bottom:20px}
+.prospectar-info{background:var(--blue-light);border:1px solid #bfdbfe;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1e40af}
+.prospectar-nota{background:var(--yellow-light);border:1px solid #fde68a;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#92400e}
+.sessao-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:20px}
+.sessao-btn{padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:13px;font-weight:500;text-align:left;transition:all .15s;line-height:1.4}
+.sessao-btn:hover{border-color:var(--green);background:var(--green-light)}
+.sessao-btn span{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px}
+.import-area{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px}
+.import-area h4{font-size:13px;font-weight:700;margin-bottom:8px}
+.import-area p{font-size:12px;color:var(--muted);margin-bottom:8px}
+.import-textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:12px;font-family:monospace;resize:vertical;min-height:100px}
+.import-result{font-size:13px;margin-top:8px;padding:8px;border-radius:6px}
+.import-ok{background:var(--green-light);color:var(--green2)}
+.import-err{background:var(--red-light);color:var(--red)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-field{display:flex;flex-direction:column;gap:4px}
+.form-field.full{grid-column:1/-1}
+.form-label{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em}
+.form-input{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;width:100%}
+.form-input:focus{outline:none;border-color:var(--green)}
+select.form-input{background:#fff}
+#prompt-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+#prompt-modal.show{display:flex}
+.modal-box{background:#fff;border-radius:12px;padding:24px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto}
+.modal-title{font-weight:700;font-size:16px;margin-bottom:12px}
+.modal-textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:13px;font-family:monospace;resize:vertical;min-height:180px;margin-bottom:12px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end}
+@media(max-width:600px){
+  #main,#detail-view{padding:12px}
+  .form-grid{grid-template-columns:1fr}
+  .form-field.full{grid-column:1}
+  .weekly-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div id="logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+      <rect width="28" height="28" rx="6" fill="#7C3AED"/>
+      <path d="M8 8 L13.5 14 L8 20 L10.5 20 L14 15.8 L17.5 20 L20 20 L14.5 14 L20 8 L17.5 8 L14 12.2 L10.5 8 Z" fill="white"/>
+    </svg>
+    CRM Prax
+  </div>
+  <span id="lead-count">0 leads</span>
+  <div id="topbar-right">
+    <button class="btn-sm" onclick="exportarDados()">&#8595; Exportar</button>
+    <label class="btn-sm" style="cursor:pointer">&#8593; Importar <input type="file" accept=".json" style="display:none" onchange="importarDados(this)"></label>
+    <button class="btn-sm" onclick="reloadFromStorage()">&#8635; Recarregar</button>
+    <button class="btn-sm btn-primary" onclick="showTab('novo')">+ Novo Lead</button>
+  </div>
+</div>
+
+<div id="tabs">
+  <div class="tab active" data-tab="pipeline" onclick="showTab('pipeline')">Pipeline</div>
+  <div class="tab" data-tab="prontos" onclick="showTab('prontos')">&#10003; Prontos</div>
+  <div class="tab" data-tab="alertas" onclick="showTab('alertas')">Alertas</div>
+  <div class="tab" data-tab="weekly" onclick="showTab('weekly')">Weekly</div>
+  <div class="tab" data-tab="prospectar" onclick="showTab('prospectar')">Prospectar</div>
+  <div class="tab" data-tab="novo" onclick="showTab('novo')">+ Novo</div>
+</div>
+
+<div id="tab-pipeline" class="tab-content">
+  <div id="main">
+    <div id="banners"></div>
+    <div id="filters"></div>
+    <div id="cards"></div>
+  </div>
+</div>
+
+<div id="tab-prontos" class="tab-content" style="display:none">
+  <div style="max-width:960px;margin:0 auto;padding:20px">
+    <div id="prontos-content"></div>
+  </div>
+</div>
+
+<div id="tab-alertas" class="tab-content" style="display:none">
+  <div style="max-width:960px;margin:0 auto;padding:20px" id="alertas-content"></div>
+</div>
+
+<div id="tab-weekly" class="tab-content" style="display:none">
+  <div style="max-width:960px;margin:0 auto;padding:20px" id="weekly-content"></div>
+</div>
+
+<div id="tab-prospectar" class="tab-content" style="display:none">
+  <div style="max-width:960px;margin:0 auto;padding:20px" id="prospectar-content"></div>
+</div>
+
+<div id="tab-novo" class="tab-content" style="display:none">
+  <div style="max-width:600px;margin:0 auto;padding:20px">
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:16px">Novo Lead</h3>
+    <div id="novo-form-content"></div>
+  </div>
+</div>
+
+<div id="detail-view">
+  <div class="detail-back" onclick="closeDetail()">&#8592; Voltar ao Pipeline</div>
+  <div id="detail-content"></div>
+</div>
+
+<div id="prompt-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title">Prompt gerado</div>
+    <textarea class="modal-textarea" id="modal-text" readonly></textarea>
+    <div class="modal-footer">
+      <button class="btn-sm" onclick="copyPrompt()">Copiar</button>
+      <button class="btn-sm btn-primary" onclick="closeModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let leads=[];
+let activeTab='pipeline';
+let pipelineFilter='Todos';
+let pipelineExtras=[];
+let currentDetailId=null;
+
+const SEGMENTOS=['Ag\u00EAncia e-commerce','Consultoria','Gestor solo','Ag\u00EAncia performance','Outro'];
+const STATUS_LIST=['Novo','Contatado','Respondeu','Qualificado','Parceiro','Sem interesse','Nutrir'];
+const CANAIS=['wa','ig','li','dm'];
+const CANAL_LABELS={wa:'WhatsApp',ig:'Instagram',li:'LinkedIn',dm:'Outro DM'};
+const CANAL_ICONS={wa:'WA',ig:'IG',li:'LI',dm:'DM'};
+const AVATAR_COLORS=['#00A896','#1D9E75','#8b5cf6','#f59e0b','#ef4444','#3b82f6','#f97316','#06b6d4'];
+
+function avatarColor(name){let h=0;for(let c of name)h=(h*31+c.charCodeAt(0))%AVATAR_COLORS.length;return AVATAR_COLORS[h];}
+function initials(name){if(!name)return'?';return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+function today(){return new Date().toISOString().split('T')[0];}
+function addDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return d.toISOString().split('T')[0];}
+function daysDiff(dateStr){if(!dateStr)return null;const d=new Date(dateStr);const t=new Date(today());return Math.round((d-t)/(1000*60*60*24));}
+function formatDate(d){if(!d)return'';const[y,m,day]=d.split('-');return`${day}/${m}`;}
+function isoToWeekStart(dateStr){const d=new Date(dateStr);const day=d.getDay();const diff=(day===0)?-6:1-day;d.setDate(d.getDate()+diff);return d.toISOString().split('T')[0];}
+
+function readinessScore(lead){
+  const items=[
+    {label:'Decisor mapeado',ok:!!(lead.contato&&lead.cargo)},
+    {label:'Canal dispon\u00EDvel',ok:!!(lead.wa||lead.ig_decisor||lead.li_decisor)},
+    {label:'Instagram validado',ok:!!(lead.ig_decisor&&lead.ig_validado)},
+    {label:'LinkedIn validado',ok:!!(lead.li_decisor&&lead.li_validado)},
+    {label:'Contexto preenchido',ok:!!(lead.contexto&&lead.contexto.length>10)},
+    {label:'Gancho de abordagem',ok:!!(lead.gancho&&lead.gancho.length>5)},
+  ];
+  const score=Math.round(items.filter(i=>i.ok).length/items.length*100);
+  return{score,items};
+}
+
+function qualityScore(lead){
+  let s=0;
+  if(lead.wa)s+=15;if(lead.ig_decisor)s+=10;if(lead.li_decisor)s+=10;
+  if(lead.ig_validado)s+=8;if(lead.li_validado)s+=8;if(lead.contato)s+=5;
+  if(lead.cargo)s+=5;if(lead.contexto&&lead.contexto.length>10)s+=8;
+  if(lead.gancho&&lead.gancho.length>5)s+=10;if(lead.canal_ativo)s+=5;
+  if(lead.pot)s+=lead.pot*3;if(lead.follows>0)s+=5;
+  if(lead.comments&&lead.comments.length>1)s+=5;
+  if(['Respondeu','Qualificado','Parceiro'].includes(lead.status))s+=10;
+  return Math.min(100,s);
+}
+
+function canalSugerido(lead){
+  if(lead.wa)return{canal:'wa',reason:'n\u00FAmero dispon\u00EDvel'};
+  if(lead.seg==='Gestor solo'&&lead.ig_decisor)return{canal:'ig',reason:'gestor solo'};
+  if(lead.li_decisor)return{canal:'li',reason:'ag
